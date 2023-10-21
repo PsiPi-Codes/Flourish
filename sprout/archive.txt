@@ -1,0 +1,63 @@
+# Read a specific parameter from the yaml file and return the key.
+# I think it returns a dictionary. IDFK.
+# i just used the duck test fml
+# Takes in one parameter as a string and takes the.
+#     __
+# ___( o)>
+# \ <_. )
+#  `---' 
+# i like ducks
+# app_name is the name of the tag, and if app_parameter, then return the value for that key
+# used to get certain things (such as whether to kill a process on timeup or not)
+# def read_param_yaml(param: str, app_parameter=None):
+#     with open('config.yaml', 'r', encoding='utf-8') as fconfig:
+#         config = yaml.safe_load(fconfig)
+#     if app_parameter:
+#         return config[param][app_parameter]
+#     return config[param]
+#         # >o)
+#         # (_>
+#         # Look! Its a litle duck!
+
+# Sets the time limit for a specific application.
+# Takes in the amount of time in seconds, and edits the yaml file. 
+# takes the name of the application, and the amount of time to limit it.
+# It will be stored under the pre-made section 'app_name'
+# Take the value under app_name called 'app_limit' and set it to the app_limit input.
+# Might want to check for the thinger that does the stuff idfk
+# Returns an integer you know the drill:
+# 0 on success and 1 on failure. (like me)
+# Nvm changing this to set_app_property
+# Bruhhhhh not deleting the comments, tehe ;)
+# New param, must specify the parameter of the app that you want to change
+# def set_app_limit(app_name: str, app_param, data: int) -> int:
+#     # Bro what i think im losing my mind.
+#     # im soooooo hungry
+#     # I NEEEEED FOOD
+#     with open('config.yaml', 'a', encoding='utf-8') as fconfig:
+#         config = yaml.safe_load(fconfig)
+#     # check if the app exists at all in the yaml file. May Allah have mercy on my soul tf is this.
+#     # What? No ducks? ducking hell man
+#     if not app_name in config:
+#         return 1
+#     # set the value for the key app_limit in app_name to the time limit value that was inputted.
+#     config[app_name][app_param] = data
+#     return 0
+
+#     /\_____/\
+#    /  o   o  \
+#   ( ==  ^  == )
+#    )         (
+#   (           )
+#  ( (  )   (  ) )
+# (__(__)___(__)__)
+# i like cats. its a fuzzy one ehehehe
+
+# Loop through the yaml file and find if any of the applications have run out of time.
+# Return the PID of that application.
+# If warn_timeup == False, then kill the process
+# else just send a notification or smth
+#adding a duck here
+
+
+#------------------------
