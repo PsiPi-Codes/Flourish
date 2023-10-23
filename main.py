@@ -1,190 +1,102 @@
+import tkinter.font as tkFont
 import customtkinter
-import sprout.backend as Sprout
-import subprocess  
-import numpy
-import psutil
 import time
 from PIL import Image
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg) 
+import sprout.backend as Sprout
 
- 
-counter = 0
-should_warn = False
-# app_limit_list = Sprout.read_all_config()
-warn = True
-app_limit_graph_data = [1] * Sprout.find_info_length()
+class App:
+    def __init__(self, root : customtkinter.CTk):
+        self.counter = time.time()
+        self.chosen = False
 
 
-# Runs every second, whatever you need!
-def process():
-    global counter
-    counter += 1
-    print(counter)
-    widget.after(1000, process)
-    # check if any of the processes have run out of time.
-    # loop through each process and see if the time that they have been running is greater than their limits
-    for ii in Sprout.get_listed_running_applications():
-        if Sprout.process_uptime(ii) >= Sprout.read_config(ii, 2) and should_warn:
-            # Find the process and kill it.
-            for jj in psutil.process_iter():
-                if jj.name == ii:
-                    jj.kill()
+        root.lift()
+        root._set_appearance_mode('dark')
+        #setting title
+        root.title("Flourish")
+        root.resizable(False,False)
+        #root.wm_iconphoto(False, ImageTk.PhotoImage('res/logo.png'))
+        #setting window size
+        width=250
+        height=260
+        screenwidth = root.winfo_screenwidth()
+        screenheight = root.winfo_screenheight()
+        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        root.geometry(alignstr)
+        root.resizable(width=False, height=False)
 
 
-in_desktop = False
-def expand(): #stuff for the desktop window configuration
-    global in_desktop
-    global should_warn
-    if not in_desktop:
-        desktopwindow = customtkinter.CTkToplevel(widget)
-        desktopwindow.title('Flourish Desktop')
-        desktopwindow.geometry('300x200')
+        image_1 = customtkinter.CTkImage(light_image=Image.open('res\\b9709638-c419-4fb1-976c-20ca8a01a9f3.jpeg'), size=(100, 115))
+        GLabel_243=customtkinter.CTkLabel(root, image=image_1, width=100, height=115)
+        ft = tkFont.Font(family='Times',size=10)
+        GLabel_243["font"] = ft
+        GLabel_243["fg"] = "#333333"
+        GLabel_243["justify"] = "center"
+        GLabel_243["text"] = "label"
+        GLabel_243.place(x=10,y=10)
 
+        GLabel_390=customtkinter.CTkLabel(root, image=image_1, width=100, height=115)
+        ft = tkFont.Font(family='Times',size=10)
+        GLabel_390["font"] = ft
+        GLabel_390["fg"] = "#333333"
+        GLabel_390["justify"] = "center"
+        GLabel_390["text"] = "label"
+        GLabel_390.place(x=140,y=10)
 
-        info_appname = customtkinter.StringVar()
-        info_time_limit = customtkinter.StringVar()
-        info_check_warn = str(customtkinter.BooleanVar())
+        GButton_26=customtkinter.CTkButton(root, width=80,height=80, command=self.GButton_26_command, bg_color='transparent', text='Start Session')
+        ft = tkFont.Font(family='Times',size=10)
+        GButton_26["font"] = ft
+        GButton_26["fg"] = "#000000"
+        GButton_26["justify"] = "center"
+        GButton_26["text"] = "Button"
+        GButton_26.place(x=80,y=160)
 
-        enter_appname = customtkinter.CTkEntry(desktopwindow, placeholder_text='carrot cake', textvariable=info_appname)
-        enter_time_limit = customtkinter.CTkEntry(desktopwindow, placeholder_text='breading (s)')
-        should_warn = customtkinter.CTkCheckBox(desktopwindow)
-
-        # Imma just print out the different fields of the different inputs for debug purposes
-        print('(+) info_appname, info_time_limit, info_check_warn', info_appname, str(info_time_limit), str(info_check_warn))
-        # Edit the styles
-
-        #Image Files: Image Stuff
-
-        #Plus Button on New Limit Section
-        btn_submit_image = customtkinter.CTkImage(Image.open('res\\Group_327.png'))
-        # When the submit button is pressed, append the data into the text file.
-        btn_submit = customtkinter.CTkButton(desktopwindow, command=lambda: Sprout.append_application(info_appname, None, info_time_limit, info_check_warn), image=btn_submit_image)
-
-        # flourish_info
-        flourish_info = customtkinter.CTkFrame(master=desktopwindow, width=319, height=178, corner_radius=20)
-        flourish_info.pack(padx=20, pady=20)
-
-
-        # name_img = Image.open('path-to-image')
-        # name = customtkinter.CTkLabel(master=desktopwindow, image=name_img)
-        # name.place(xcoord, ycoord)
-
-
-        screen_width = desktopwindow.winfo_width()
-        screen_height = desktopwindow.winfo_height()
-
-        Rectangle_185_2_img = customtkinter.CTkImage(Image.open('res\\Rectangle_185_2.png'), size=(Image.open('res\\Rectangle_185_2.png').width ,Image.open('res\\Rectangle_185_2.png').height))
-        Rectangle_185_2 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_185_2_img)
-        Rectangle_185_2.place(x=32, y=29)
+    def GButton_26_command(self):
+        print('command')
+        desktopwindow = customtkinter.CTkToplevel(root)
+        desktopwindow.title("test")
+        desktopwindow.geometry("200x100")
         
-        Rectangle_182_img = customtkinter.CTkImage(Image.open('res\\Rectangle_182.png'), size=(Image.open('res\\Rectangle_182.png').width, Image.open('res\\Rectangle_182.png').height))
-        Rectangle_182 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_182_img)
-        Rectangle_182.place(x=58, y=459)
-
-        Rectangle_180_img = customtkinter.CTkImage(Image.open('res\\Rectangle_180.png'), size=(Image.open('res\\Rectangle_180.png').width, Image.open('res\\Rectangle_180.png').height))
-        Rectangle_180 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_180_img)
-        Rectangle_180.place(x=32, y=353)
-
-        Rectangle_178_img = customtkinter.CTkImage(Image.open('res\\Rectangle_178.png'), size=(Image.open('res\\Rectangle_178.png').width, Image.open('res\\Rectangle_178.png').height))
-        Rectangle_178_2 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_178_img)
-        Rectangle_178_2.place(x=556, y=629)
-
-        Rectangle_177_img = customtkinter.CTkImage(Image.open('res\\Rectangle_177.png'), size=(Image.open('res\\Rectangle_177.png').width, Image.open('res\\Rectangle_177.png').height))
-        Rectangle_177 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_177_img)
-        Rectangle_177.place(x=884, y=130)
-
-        Rectangle_139_img = customtkinter.CTkImage(Image.open('res\\Rectangle_139.png'), size=(Image.open('res\\Rectangle_139.png').width, Image.open('res\\Rectangle_139.png').height))
-        Rectangle_139 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_139_img)
-        Rectangle_139.place(x=419, y=29)
-
-        Rectangle_121_img = customtkinter.CTkImage(Image.open('res\\Rectangle_121.png'), size=(Image.open('res\\Rectangle_121.png').width, Image.open('res\\Rectangle_121.png').height))
-        Rectangle_121 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_121_img)
-        Rectangle_121.place(x=418, y=489)
-
-        Rectangle_121_2 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_121_img)
-        Rectangle_121_2.place(x=593, y=489)
-
-        Rectangle_121_3 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_121_img)
-        Rectangle_121_3.place(x=705, y=489)
-
-        Rectangle_16_img = customtkinter.CTkImage(Image.open('res\\Rectangle_16.png'), size=(Image.open('res\\Rectangle_16.png').height, Image.open('res\\Rectangle_16.png').width))
-        Rectangle_16 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_16_img)
-        Rectangle_16.place(x=880, y=30)
-
-        Rectangle_45_img = customtkinter.CTkImage(Image.open('res\\Rectangle_45.png'), size=(Image.open('res\\Rectangle_45.png').width, Image.open('res\\Rectangle_45.png').height))
-        Rectangle_45 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_45_img)
-        Rectangle_45.place(x=926, y=389)
-
-        Rectangle_45_2 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_45_img)
-        Rectangle_45_2.place(x=926, y=470)
-
-        Rectangle_45_3 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_45_img)
-        Rectangle_45_3.place(x=926, y=552)
-
-        Rectangle_45_3 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_45_img)
-        Rectangle_45_3.place(x=926, y=635)
-
-        Rectangle_42_img = customtkinter.CTkImage(Image.open('res\\Rectangle_42.png'), size=(Image.open('res\\Rectangle_42.png').width, Image.open('res\\Rectangle_42.png').height))
-        Rectangle_42 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_42_img)
-        Rectangle_42.place(x=63, y=142)
-
-        Rectangle_37_img = customtkinter.CTkImage(Image.open('res\\Rectangle_37.png'), size=(Image.open('res\\Rectangle_37.png').width, Image.open('res\\Rectangle_37.png').height))
-        Rectangle_37 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_37_img)
-        Rectangle_37.place(x=430, y=632)
-
-        Rectangle_180_img = customtkinter.CTkImage(Image.open('res\\Rectangle_180.png'), size=(Image.open('res\\Rectangle_180.png').width, Image.open('res\\Rectangle_180.png').height))
-        Rectangle_180 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Rectangle_180_img)
-        Rectangle_180.place(x=32, y=353)
-
-        Group_327_img = customtkinter.CTkImage(Image.open('res\\Group_327.png'), size=(Image.open('res\\Group_327.png').width, Image.open('res\\Group_327.png').height))
-        Group_327 = customtkinter.CTkLabel(master=desktopwindow, text= '', image=Group_327_img)
-        Group_327.place(x=32, y=29)
-# 
+        self.selected_process = customtkinter.StringVar()
+        dropdown = customtkinter.CTkOptionMenu(desktopwindow, values=Sprout.get_current_running_applications(), variable=self.selected_process)
+        self.entry_text = customtkinter.StringVar()
+        entry = customtkinter.CTkEntry(desktopwindow)
+        submit_button = customtkinter.CTkButton(desktopwindow, command=self.variable_handler)
+        checkbox = customtkinter.CTkCheckBox(desktopwindow)
 
 
-        enter_appname.pack()
-        enter_time_limit.pack()
-        check_warn.pack()
-        btn_submit.pack()
+        dropdown.pack()
+        entry.pack()
+        checkbox.pack()
+        submit_button.pack()
+        
+    def variable_handler(self):
+        print(self.selected_process)
+        print(self.entry_text)
+
+        Sprout.append_application(self.selected_process.get(), self.entry_text)
+        self.chosen = True
+
+        #testing kill function
+
+    
+    def kill_process(self, process):
+        Sprout.kill_process(process)
+
+    def process(self):
+        self.counter = time.time()
+        print(self.counter)
+        
+        if self.chosen:
+            if (self.selected_process in Sprout.get_listed_running_applications()) and (Sprout.process_uptime(self.selected_process) >= int(Sprout.read_config(self.selected_process, 1))):
+                self.kill_process(self.selected_process)
+        root.after(1000, self.process)
+
+        
 
 
-        in_desktop = True
-
-
-# Main Window & its propteries
-# widget stuff below: 
-widget = customtkinter.CTk()
-customtkinter.set_appearance_mode('dark')
-
-up_frame = customtkinter.CTkFrame(widget)
-
-#bargraph stuff below
-bargraph= Figure(figsize=(5,4), dpi=100)
-specific_apps = bargraph.add_subplot(111)
-
-graph_x_location = numpy.arange(Sprout.find_info_length())  # the x locations for the groups
-spacing = .5
-
-rects1 = specific_apps.bar(graph_x_location, tuple(app_limit_graph_data), spacing)
-
-canvas = FigureCanvasTkAgg(bargraph, master=up_frame)
-canvas.draw()
-canvas.get_tk_widget().grid(row=0, column=1)
-
-#button stuff below
-button_frame = customtkinter.CTkFrame(widget)
-
-# Add and implement the button that expands to the mainwindow
-#Testing if it works
-test_image = customtkinter.CTkImage(light_image=Image.open('res\\b9709638-c419-4fb1-976c-20ca8a01a9f3.jpeg'), size=(300,300))
-test_image_holder = customtkinter.CTkLabel(up_frame, image=test_image, text="")
-
-btn_expand = customtkinter.CTkButton(master=button_frame, text='//\/\nThis is supposed to be a plant^', command=expand)
-up_frame.pack()
-button_frame.pack()
-test_image_holder.grid(row=0, column=0)
-btn_expand.pack()
-
-process()
-widget.mainloop()
+if __name__ == "__main__":
+    root = customtkinter.CTk()
+    app = App(root)
+    app.process()
+    root.mainloop()

@@ -1,6 +1,6 @@
 import datetime
-import time
 import psutil
+import os
 
 # .sprout file (csv-like iterator config):
 # essentially, each line '\n' (new_iterator) is a seperate iterator (usually a list),
@@ -14,21 +14,25 @@ import psutil
 # (In our case the new_line declarator is used for the weekly info)
 # You can read an entire .sprout file and create an iterable from that, where '\n' ()
 
-week_session = [False, False, False, False, False, False, False] #days of the week
+week_session = [False, False, False, False, False, False, False] # days of the week
 
-def find_info_length():  #the amount of implements in the info
+# the amount of implements in the info
+def find_info_length():
     with open('info.sprout') as file:
         contents = file.readlines()
     
     return len(contents)
 
-def read_config(app_name, app_parameter = None): #code for the specific apps, sp
+# Kills the inputted process as string
+def kill_process(app : str):
+    os.system("taskkill /f /m {process}".format(process = app))
+
+# returns info about a specific app limit or app limit parameter
+def read_config(app_name, app_parameter = None):
     with open('info.sprout') as file:
         contents = file.readlines()
 
     app_list = [value.split(',') for value in contents]
-    # for value in contents:
-    #     app_list.append(value.split(','))
 
     selected_app = []
 
@@ -41,7 +45,7 @@ def read_config(app_name, app_parameter = None): #code for the specific apps, sp
     
     return selected_app
 
-# A 2d list that contains the info of each app
+# A 2D list that contains the info of each app
 def read_all_config():
     with open('info.sprout') as file:
         contents = file.readlines()
@@ -53,7 +57,8 @@ def read_all_config():
 
     return app_list
 
-def get_current_running_applications() -> list[psutil.Process]:
+# Returns a list of the names of all currently running applications
+def get_current_running_applications() -> list[str]:
     raw_app_list = psutil.process_iter()
     app_list = []
     for value in raw_app_list:
@@ -72,6 +77,7 @@ def process_uptime(process_name: str):
     else:
         return None
 
+# Returns a list of all currently running applications within info.sprout as Process objects
 def get_listed_running_applications() -> list[psutil.Process]:
     listed_applications = []
     
@@ -126,16 +132,6 @@ def append_daily_info(day_info):
 
         file.write(as_sprout)
 
-def get_Datetime_object(string):
-    return datetime.datetime.strptime(string, '%H:%M:%S')
-
-def main():
-    for value in get_current_running_applications():
-        print(value)
-    
-    print(get_daily_info(0))
-
-    append_daily_info({"test": 2, "test 2": 5})
-
-if __name__ == "__main__":
-    main()
+# Redundant / Not needed, delete later
+# def get_Datetime_object(string):
+#     return datetime.datetime.strptime(string, '%H:%M:%S')
