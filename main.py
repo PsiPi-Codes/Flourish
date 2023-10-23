@@ -87,6 +87,8 @@ class App:
         self.counter = time.time()
         print(self.counter)
         
+        # This doesn't work, I don't know why
+        # There seems to be an error with process_uptime, not sure what
         if self.chosen:
             if (self.selected_process in Sprout.get_listed_running_applications()) and (Sprout.process_uptime(self.selected_process) >= int(Sprout.read_config(self.selected_process, 1))):
                 self.kill_process(self.selected_process)

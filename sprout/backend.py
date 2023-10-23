@@ -69,6 +69,8 @@ def get_current_running_applications() -> list[str]:
 
 # Returns the time in milliseconds that the process has been running for
 # first input is the name of the process
+# What does this do????
+# what is the return type?
 def process_uptime(process_name: str):
     for process in psutil.process_iter(attrs=['pid', 'name', 'create_time']):
         if process.info['name'] == process_name:
